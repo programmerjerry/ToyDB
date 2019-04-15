@@ -1,2 +1,2 @@
 # ToyDB
-database demo
+A Database Demo
