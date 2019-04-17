@@ -42,3 +42,8 @@
 (defun mytest-select ()
   ())|#
 
+(fiveam:test mytest
+  
+  (fiveam:is (= (+ 1 1) 2)); 应该能通过的
+  
+  (fiveam:is (= (+ 1 2) 3))) ; 应该失败的
