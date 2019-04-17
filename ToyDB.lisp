@@ -42,8 +42,23 @@
 (defun mytest-select ()
   ())|#
 
-(fiveam:test mytest-insert
-  (fiveam:is-true (insert "student" '((id 44)(student_name "Jerry")))))
+
+(fiveam:def-fixture fix-1 ()
+  (progn
+    (setf *db* nil) ; 相当于SetUp
+    (print "aa")
+    (&body) ;   这里的 &body 会被测试用例的 body 替换掉
+    (setf *db* nil) ; 相当于TearDown
+    (print "bb")))
+
+(fiveam:test fixtest
+  (fiveam:with-fixture fix-1 ()
+     ; (fiveam:is (= (+ 2 2) 4))
+      (fiveam:is-true (insert "student" '((id 44)(student_name "Jerry"))))))
+
+
+;(fiveam:test mytest-insert
+ ; (fiveam:is-true (insert "student" '((id 44)(student_name "Jerry")))))
 
 (fiveam:test mytest
   
