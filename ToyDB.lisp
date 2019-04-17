@@ -20,8 +20,8 @@
 
 
 ;; 自己随便写的测试用例，后面找个测试框架来用
-(defun mytest-insert ()
-  (insert "student" '((id 44)(student_name "Jerry"))))
+;(defun mytest-insert ()
+;  (insert "student" '((id 44)(student_name "Jerry"))))
 
 #|
 (defun delete (tablename id)
@@ -41,6 +41,9 @@
 
 (defun mytest-select ()
   ())|#
+
+(fiveam:test mytest-insert
+  (fiveam:is-true (insert "student" '((id 44)(student_name "Jerry")))))
 
 (fiveam:test mytest
   
