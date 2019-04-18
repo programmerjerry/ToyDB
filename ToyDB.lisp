@@ -50,6 +50,38 @@
 
 
 
+(fiveam:def-fixture fix-update ()
+  (progn
+    (setf *db*
+          '(((ID 44) (STUDENT_NAME "Jerry")))) ;直接给数据库赋值
+    (&body)
+    (setf *db* nil)))
+
+(fiveam:test update-test
+  (fiveam:with-fixture fix-update ()
+    (progn
+      (update "student" 44 "TOM")
+      (fiveam:is-true (equal (car (cdadar *db*)) "Jerry")))))
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 (fiveam:def-fixture fix-delete ()
   (progn
     (setf *db*
@@ -91,10 +123,10 @@
 (fiveam:def-fixture fix-1 ()
   (progn
     (setf *db* nil) ; 相当于SetUp
-    (print "aa")
+   ; (print "aa")
     (&body) ;   这里的 &body 会被测试用例的 body 替换掉
-    (setf *db* nil) ; 相当于TearDown
-    (print "bb")))
+    (setf *db* nil))) ; 相当于TearDown
+    ;(print "bb")))
 
 (fiveam:test fixtest
   (fiveam:with-fixture fix-1 ()
