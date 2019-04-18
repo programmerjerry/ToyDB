@@ -42,6 +42,51 @@
 (defun mytest-select ()
   ())|#
 
+(defun delete-all (table-name)
+  (declare (ignore table-name))
+  (progn
+    (setf *db* nil)
+    t))
+
+
+
+(fiveam:def-fixture fix-delete ()
+  (progn
+    (setf *db*
+          '(((ID 44) (STUDENT_NAME "Jerry")) ((ID 44) (STUDENT_NAME "Jerry")))) ;直接给数据库赋值
+    (&body)
+    (setf *db* nil)))
+
+
+(fiveam:test delete-all-test
+  (fiveam:with-fixture fix-delete ()
+    (fiveam:is-true (delete-all "student"))))
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 (fiveam:def-fixture fix-1 ()
   (progn
