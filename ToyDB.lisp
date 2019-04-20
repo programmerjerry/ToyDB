@@ -23,6 +23,28 @@
     (setf *db* tmp-db)))
 
 
+(defun select (id)
+  (let ((tmp-records nil))
+    (dolist (record *db*)
+      (if (= (first record) id)
+          (setf tmp-records (append (list record) tmp-records))))
+    tmp-records))
+
+(fiveam:def-fixture fix-select ()
+  (progn
+    (setf *db* '((44 "Jerry")(55 "Tom"))) ;直接给数据库赋值
+    (&body)
+    (setf *db* nil)))
+
+
+(fiveam:test select-test
+  (fiveam:with-fixture fix-select ()
+    (let ((tmp-record (select 44)))
+      (fiveam:is-true (and
+                       (=  (caar tmp-record) 44)
+                       (equal (cadar tmp-record) "Jerry"))))))
+
+
 (fiveam:def-fixture fix-update ()
   (progn
     (setf *db* '((44 "Jerry")(55 "Tom"))) ;直接给数据库赋值
