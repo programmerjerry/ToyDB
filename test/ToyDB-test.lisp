@@ -8,6 +8,34 @@
 (defun all-t ()
   (run! 'all-tests))
 
+
+
+(def-fixture fix-save-db ()
+  (progn
+    (setf toydb::*db* '((44 "Jerry")(55 "Tom"))) ;直接给数据库赋值
+    (&body)
+    (setf toydb::*db* nil)))
+
+
+(test save-db-test ()
+  (with-fixture fix-save-db ()
+                (progn
+                  (save-db #p"Z:/lisp/ToyDB/test/testdb1.txt")
+                  (with-open-file (in #p"Z:/lisp/ToyDB/test/testdb1.txt")
+                    (with-standard-io-syntax
+                      (let ((tmp-file (read in)))
+                        (search "Jerry" tmp-file)))))))
+
+
+(test load-db-test
+  (progn
+    (load-db (pathname #p"Z:/lisp/ToyDB/test/testdb.txt"))
+    (is-true (and
+              (=  (caar toydb::*db*) 44)
+              (equal (cadar toydb::*db*) "Jerry")))))
+
+                    
+
 (fiveam:def-fixture fix-select ()
   (progn
     (setf toydb::*db* '((44 "Jerry")(55 "Tom"))) ;直接给数据库赋值

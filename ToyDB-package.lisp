@@ -2,7 +2,9 @@
 
 (defpackage :ToyDB
   (:use :common-lisp)
-  (:export #:insert
+  (:export #:load-db
+           #:save-db
+           #:insert
            #:delete-all
            #:update
            #:select))

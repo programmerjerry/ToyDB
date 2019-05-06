@@ -2,6 +2,18 @@
 
 (defparameter *db* nil) ; 定义一个全局变量，数据放到这个全局变量里面
 
+(defun load-db (filename)
+  (with-open-file (in filename)
+    (with-standard-io-syntax
+      (setf *db* (read in)))))
+
+(defun save-db (filename)
+  (with-open-file (out filename
+                       :direction :output
+                       :if-exists :supersede)
+    (with-standard-io-syntax
+      (print *db* out))))
+
 
 (defun insert (tablename column_names)
   (declare (ignore tablename)) ; 忽略不用的入参,否则编译的时候有警告；不加也能编译通过
